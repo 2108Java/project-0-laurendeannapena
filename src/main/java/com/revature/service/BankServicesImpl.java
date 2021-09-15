@@ -1,9 +1,73 @@
 package com.revature.service;
 
-public class BankServicesImpl implements BankServices{
-	
-	public boolean addUser() {
-		
-	}//end method addUser
+import java.util.ArrayList;
 
+import com.revature.models.Account;
+import com.revature.models.MoneyTransfer;
+import com.revature.models.Transaction;
+import com.revature.models.User;
+
+public class BankServicesImpl implements BankServices{
+
+	@Override
+	public boolean authenticateUser(String username, String user_password) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addUser(User newUser) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addNewAccount(Account newAccount) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addJointAccount(String username) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public double viewAccountBalance(int account_id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean changeAccountBalance(double amount) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ArrayList<Account> viewCustomerAccount(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean postMoneyTransfer(MoneyTransfer newTransfer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public MoneyTransfer reviewMoneyTransfer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Transaction> viewTransactions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
 }

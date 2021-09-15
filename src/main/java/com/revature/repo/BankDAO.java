@@ -1,54 +1,44 @@
 package com.revature.repo;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
 
+import com.revature.models.Account;
+import com.revature.models.MoneyTransfer;
+import com.revature.models.Transaction;
 import com.revature.models.User;
 
-
-
-public class BankDAO {
-	
-	//Configuration information to connect to our database
-		String server = "localhost";
-		String url = "jdbc:postgresql://" + server + "/postgres";
-		String username = "postgres";
-		String password = "Texascaligal21";
+public interface BankDAO {
 		
+		//Check user login credentials
+		public boolean authenticateUser(String username, String user_password);
 		
-	public boolean insertUser(User newUser) {
+		//insert row in user table
+		public boolean insertUser(User newUser);
 		
-		boolean success = false;
+		//insert row in account table
+		public boolean insertNewAccount(Account newAccount);
 		
-		//1. Connect to database!
-		try(Connection connection = DriverManager.getConnection(url,username,password)){
-			
-			//2. Write a SQL statement String
-			
-			String sql = "INSERT INTO users(first_name, last_name, username, user_password, user_type) VALUES (?,?,?,?,?)";
-			
-			PreparedStatement ps = connection.prepareStatement(sql);
-			
-			ps.setString(1, newUser.getFirst_name());
-			ps.setString(2, newUser.getLast_name());
-			ps.setString(3, newUser.getUsername());
-			ps.setString(4, newUser.getUser_password());
-			ps.setString(5, newUser.getUser_type());
-			
-			ps.execute();
-			
-			success = true;
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		//update row in account table
+		public boolean updateJointAccount(String username);
 		
-		return success;
-	}//end insertAccount
-
+		//select an account balance from account table
+		public double selectAccountBalance(int account_id);
+		
+		//update account balance from account table
+		public boolean updateAccountBalance(double amount);
+		
+		//approve or reject pending account registrations
+//		public boolean reviewAccountRegistration();
+		
+		//view all of a user's accounts
+		public ArrayList<Account> selectCustomerAccount(String username);
+		
+		//insert row into pending transfers table
+		public boolean insertMoneyTransfer(MoneyTransfer newTransfer);
+		
+		//update pending transfers and transactions tables
+		public MoneyTransfer updateMoneyTransfer();
+		
+		//view all transactions in transactions table
+		public ArrayList<Transaction> selectTransactions();
 }
