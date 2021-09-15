@@ -3,9 +3,15 @@ package com.revature.presentation;
 import java.util.Scanner;
 
 import com.revature.models.User;
+import com.revature.service.BankServices;
 
 public class LoginOrRegister {
 
+	BankServices service;
+	
+	public LoginOrRegister(BankServices service) {
+		this.service = service;
+	}
 	public static void Register() {
 		
 		Scanner sc = new Scanner(System.in);
@@ -38,6 +44,14 @@ public class LoginOrRegister {
 		
 		//create new user
 		User newUser = new User(username, user_password, first_name, last_name, user_type);
+		
+		
+		if(service.addUser(newUser)) {
+			System.out.println("User created successfully.");
+		}
+		else {
+			System.out.println("User not created.");
+		}
 		
 		
 	}

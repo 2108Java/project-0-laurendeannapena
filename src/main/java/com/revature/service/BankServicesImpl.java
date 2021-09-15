@@ -6,9 +6,16 @@ import com.revature.models.Account;
 import com.revature.models.MoneyTransfer;
 import com.revature.models.Transaction;
 import com.revature.models.User;
+import com.revature.repo.BankDAO;
 
 public class BankServicesImpl implements BankServices{
 
+	BankDAO database;
+	
+	public BankServicesImpl(BankDAO database) {
+		this.database = database;
+	}
+	
 	@Override
 	public boolean authenticateUser(String username, String user_password) {
 		// TODO Auto-generated method stub
@@ -17,8 +24,7 @@ public class BankServicesImpl implements BankServices{
 
 	@Override
 	public boolean addUser(User newUser) {
-		// TODO Auto-generated method stub
-		return false;
+		return database.insertUser(newUser);
 	}
 
 	@Override

@@ -5,7 +5,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import com.revature.models.Account;
+import com.revature.models.MoneyTransfer;
+import com.revature.models.Transaction;
 import com.revature.models.User;
 
 
@@ -50,5 +54,68 @@ public class BankDAOImpl implements BankDAO{
 		
 		return success;
 	}//end insertAccount
+
+
+	@Override
+	public boolean authenticateUser(String username, String user_password) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean insertNewAccount(Account newAccount) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean updateJointAccount(String username) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public double selectAccountBalance(int account_id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public boolean updateAccountBalance(double amount) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public ArrayList<Account> selectCustomerAccount(String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public boolean insertMoneyTransfer(MoneyTransfer newTransfer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public MoneyTransfer updateMoneyTransfer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ArrayList<Transaction> selectTransactions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
