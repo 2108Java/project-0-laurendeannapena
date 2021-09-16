@@ -57,10 +57,25 @@ public class BankDAOImpl implements BankDAO{
 
 
 	@Override
-	public boolean authenticateUser(String username, String user_password) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	public boolean authenticateUser(String userName, String user_password) {
+		boolean success = false;
+		
+		try(Connection connection = DriverManager.getConnection(url,username,password)){
+			String sql = "SELECT * FROM users WHERE username = ? AND user_password = ?";
+			
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, userName);
+			ps.setString(2, user_password);
+			
+			success = true;
+		} 
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return success;
+	}//end authenticateUser
 
 
 	@Override

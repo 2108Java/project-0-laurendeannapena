@@ -18,8 +18,8 @@ public class BankServicesImpl implements BankServices{
 	
 	@Override
 	public boolean authenticateUser(String username, String user_password) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return database.authenticateUser(username, user_password);
 	}
 
 	@Override
