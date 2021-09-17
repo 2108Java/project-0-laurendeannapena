@@ -67,6 +67,8 @@ public class BankDAOImpl implements BankDAO{
 			ps.setString(1, userName);
 			ps.setString(2, user_password);
 			
+			ps.execute();
+			
 			success = true;
 		} 
 		catch (SQLException e) {

@@ -75,7 +75,7 @@ public class MenuImpl implements Menu {
 		
 	}//end method loginOrRegister
 	
-	public void customerMenu(){
+	public void customerMenu(String username){
 		
 		boolean running = true;
 		
@@ -112,7 +112,7 @@ public class MenuImpl implements Menu {
 		}//end while loop
 	}//end method customerMenu
 	
-	public void employeeMenu() {
+	public void employeeMenu(String username) {
 
 		boolean running = true;
 		

@@ -3,6 +3,6 @@ package com.revature.presentation;
 public interface Menu {
 
 	public void loginOrRegister();
-	public void customerMenu();
-	public void employeeMenu();
+	public void customerMenu(String username);
+	public void employeeMenu(String username);
 }
