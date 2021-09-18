@@ -2,18 +2,46 @@ package com.revature.models;
 
 public class User {
 
+	private int id;
 	private String username;
-	private String user_password;
-	private String first_name;
-	private String last_name;
-	private String user_type;
+	private String userPassword;
+	private String firstName;
+	private String lastName;
+	private String userType;
 	
-	public User(String username, String user_password, String first_name, String last_name, String user_type) {
+	
+	public User() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public User(String username, String userPassword, String firstName, String lastName, String userType) {
+		super();
 		this.username = username;
-		this.user_password = user_password;
-		this.first_name = first_name;
-		this.last_name = last_name;
-		this.user_type = user_type;
+		this.userPassword = userPassword;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.userType = userType;
+	}
+
+	public User(int id, String username, String userPassword, String firstName, String lastName, String userType) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.userPassword = userPassword;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.userType = userType;
+	}
+	
+	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getUsername() {
@@ -24,37 +52,36 @@ public class User {
 		this.username = username;
 	}
 
-	public String getUser_password() {
-		return user_password;
+	public String getUserPassword() {
+		return userPassword;
 	}
 
-	public void setUser_password(String user_password) {
-		this.user_password = user_password;
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
 	}
 
-	public String getFirst_name() {
-		return first_name;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getLast_name() {
-		return last_name;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	public String getUser_type() {
-		return user_type;
+	public String getUserType() {
+		return userType;
 	}
 
-	public void setUser_type(String user_type) {
-		this.user_type = user_type;
+	public void setUserType(String userType) {
+		this.userType = userType;
 	}
-	
 	
 }

@@ -1,22 +1,23 @@
 package com.revature;
 
-import com.revature.presentation.Menu;
-import com.revature.presentation.MenuImpl;
+import com.revature.presentation.BankMenus;
+import com.revature.presentation.BankMenusImpl;
 import com.revature.repo.BankDAO;
 import com.revature.repo.BankDAOImpl;
 import com.revature.service.BankServices;
 import com.revature.service.BankServicesImpl;
+import com.revature.util.DBConnection;
 
 public class MainDriver {
 
 	public static void main(String[] args) {
-	
-		BankDAO database = new BankDAOImpl();
-		BankServices service = new BankServicesImpl(database);
-		Menu menu = new MenuImpl(service);
 		
-		menu.loginOrRegister();
+		DBConnection connection = new DBConnection();
+		BankDAO database = new BankDAOImpl(connection);
+		BankServices service = new BankServicesImpl(database);
+		BankMenus menu = new BankMenusImpl(service);
+		
+		menu.display();
 		
 	}
-
 }

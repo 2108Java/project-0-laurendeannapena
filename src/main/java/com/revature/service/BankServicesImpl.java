@@ -1,79 +1,44 @@
 package com.revature.service;
 
-import java.util.ArrayList;
-
-import com.revature.models.Account;
-import com.revature.models.MoneyTransfer;
-import com.revature.models.Transaction;
 import com.revature.models.User;
 import com.revature.repo.BankDAO;
 
 public class BankServicesImpl implements BankServices{
-
+	
 	BankDAO database;
 	
 	public BankServicesImpl(BankDAO database) {
 		this.database = database;
 	}
 	
-	@Override
-	public boolean authenticateUser(String username, String user_password) {
+	//authenticate a user attempting to login
+	public boolean authenticate(String username, String password) {
+		//before checking condition success is false
+		boolean success = false;
+			
+		//identify the user based on their provided username
+		User currentUser = getUserByUsername(username);
 		
-			return database.authenticateUser(username, user_password);
+		//make sure the user and their password are not null
+		if(currentUser != null && currentUser.getUserPassword() != null) {
+			//make the entered password matches the stored password
+			success = currentUser.getUserPassword().equals(password);			
+		}
+		
+		return success;
+	}
+
+	//retrieve stored user information using a provided username
+	public User getUserByUsername(String username) {
+		
+		User currentUser = database.selectUserByUsername(username);
+		
+		return currentUser;
 	}
 
 	@Override
 	public boolean addUser(User newUser) {
+		// TODO Auto-generated method stub
 		return database.insertUser(newUser);
 	}
-
-	@Override
-	public boolean addNewAccount(Account newAccount) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean addJointAccount(String username) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public double viewAccountBalance(int account_id) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public boolean changeAccountBalance(double amount) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public ArrayList<Account> viewCustomerAccount(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean postMoneyTransfer(MoneyTransfer newTransfer) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public MoneyTransfer reviewMoneyTransfer() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<Transaction> viewTransactions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
 }
