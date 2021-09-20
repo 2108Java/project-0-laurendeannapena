@@ -99,6 +99,12 @@ public class BankMenusImpl implements BankMenus{
 				accountDisplay(service.listAccounts(userAccounts, currentUser));
 				break;
 			case "4":
+				if(service.withdrawalFunds(currentUser, sc)) {
+					System.out.println("Withdrawal successful.");
+				}
+				else {
+					System.out.println("Withdrawal failed.");
+				}//end if statement
 				break;
 			case "5":
 				if(service.depositFunds(currentUser, sc)) {

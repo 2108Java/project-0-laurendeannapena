@@ -20,4 +20,6 @@ public interface BankServices {
 
 	boolean depositFunds(User currentUser, Scanner sc);
 
+	boolean withdrawalFunds(User currentUser, Scanner sc);
+
 }

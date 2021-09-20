@@ -92,9 +92,36 @@ public class BankServicesImpl implements BankServices{
 			if(currentAccount != null && currentAccount.getAccountId() == accountId) {
 				System.out.print("Enter deposit amount: $");
 				double depositAmount = Double.parseDouble(sc.nextLine());
-				currentAccount.setAccountBalance(depositAmount);
-				success = database.updateAccountBalance(accountId, currentAccount.getAccountBalance());
-				break;
+				if(depositAmount > 0) {
+					currentAccount.setAccountBalance(depositAmount);
+					success = database.updateAccountBalance(accountId, currentAccount.getAccountBalance());
+					break;
+				}
+			}
+		}//end enhanced for loop
+		
+		return success;
+	}
+
+	@Override
+	public boolean withdrawalFunds(User currentUser, Scanner sc) {
+		boolean success = false;
+		List<Account> userAccounts = new ArrayList<>();
+		userAccounts = listAccounts(userAccounts, currentUser);
+		
+		System.out.println("Enter account #");
+		int accountId = Integer.parseInt(sc.nextLine());
+		
+		for(Account currentAccount: userAccounts) {
+			if(currentAccount != null && currentAccount.getAccountId() == accountId) {
+				System.out.print("Enter withdrawal amount: $");
+				double withdrawalAmount = Double.parseDouble(sc.nextLine());
+				if(withdrawalAmount > 0) {
+					withdrawalAmount = -withdrawalAmount;
+					currentAccount.setAccountBalance(withdrawalAmount);
+					success = database.updateAccountBalance(accountId, currentAccount.getAccountBalance());
+					break;
+				}
 			}
 		}//end enhanced for loop
 		
