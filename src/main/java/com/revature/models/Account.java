@@ -78,8 +78,13 @@ public class Account {
 		return accountBalance;
 	}
 
-	public void setAccountBalance(double accountBalance) {
-		this.accountBalance = accountBalance;
+	public void setAccountBalance(double differenceInBalance) {
+		
+		//prevent overdrafting
+		if(this.accountBalance + differenceInBalance >= 0) {
+			this.accountBalance += differenceInBalance;
+		}//end if statement
+		
 	}
 
 	public boolean isApproved() {

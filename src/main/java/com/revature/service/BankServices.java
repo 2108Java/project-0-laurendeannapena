@@ -18,4 +18,6 @@ public interface BankServices {
 
 	List<Account> listAccounts(List<Account> userAccounts, User currentUser);
 
+	boolean depositFunds(User currentUser, Scanner sc);
+
 }

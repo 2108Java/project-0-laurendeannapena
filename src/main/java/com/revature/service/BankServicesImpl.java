@@ -1,5 +1,6 @@
 package com.revature.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -40,12 +41,14 @@ public class BankServicesImpl implements BankServices{
 		return currentUser;
 	}
 
+	//add a new user
 	@Override
 	public boolean addUser(User newUser) {
 		// TODO Auto-generated method stub
 		return database.insertUser(newUser);
 	}
 
+	//create a new bank account
 	@Override
 	public boolean createNewAccount(User currentUser, Scanner sc) {
 		System.out.println("Enter c for checking account or s for savings account.");
@@ -68,9 +71,33 @@ public class BankServicesImpl implements BankServices{
 		return success;
 	}
 
+	//get all of a users approved accounts
 	@Override
 	public List<Account> listAccounts(List<Account> userAccounts, User currentUser) {
 		userAccounts = database.queryAccountsByUserId(userAccounts, currentUser.getId());
 		return userAccounts;
+	}
+
+	//deposit funds into a user's account
+	@Override
+	public boolean depositFunds(User currentUser, Scanner sc) {
+		boolean success = false;
+		List<Account> userAccounts = new ArrayList<>();
+		userAccounts = listAccounts(userAccounts, currentUser);
+		
+		System.out.println("Enter account #");
+		int accountId = Integer.parseInt(sc.nextLine());
+		
+		for(Account currentAccount: userAccounts) {
+			if(currentAccount != null && currentAccount.getAccountId() == accountId) {
+				System.out.print("Enter deposit amount: $");
+				double depositAmount = Double.parseDouble(sc.nextLine());
+				currentAccount.setAccountBalance(depositAmount);
+				success = database.updateAccountBalance(accountId, currentAccount.getAccountBalance());
+				break;
+			}
+		}//end enhanced for loop
+		
+		return success;
 	}
 }

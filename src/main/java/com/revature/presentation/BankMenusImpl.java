@@ -101,6 +101,12 @@ public class BankMenusImpl implements BankMenus{
 			case "4":
 				break;
 			case "5":
+				if(service.depositFunds(currentUser, sc)) {
+					System.out.println("Deposit successful.");
+				}
+				else {
+					System.out.println("Deposit failed.");
+				}//end if statement
 				break;
 			case "6":
 				break;

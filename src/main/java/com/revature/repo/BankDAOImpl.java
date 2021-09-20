@@ -117,10 +117,11 @@ public class BankDAOImpl implements BankDAO{
 		try{
 			Connection connection = dbConnection.getConnection();
 			
-			String sql = "SELECT * FROM accounts WHERE is_approved = true AND (first_user = ? OR second_user = ?)";
+			String sql = "SELECT * FROM accounts WHERE is_approved = ? AND (first_user = ? OR second_user = ?)";
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setInt(1, id);
+			ps.setBoolean(1, true);
 			ps.setInt(2, id);
+			ps.setInt(3, id);
 			
 			ResultSet rs = ps.executeQuery();
 			
@@ -141,5 +142,34 @@ public class BankDAOImpl implements BankDAO{
 		
 		return userAccounts;
 	}//end method queryAccountsByUserId
+
+	@Override
+	public boolean updateAccountBalance(int accountId, double accountBalance) {
+		boolean success = false;
+		
+		try{
+			//1. Connect to database!
+			Connection connection = dbConnection.getConnection();
+			
+			//2. Write a SQL statement String
+			String sql = "UPDATE accounts SET account_balance = ? WHERE account_id = ?";
+			
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setDouble(1, accountBalance);
+			ps.setInt(2, accountId);
+			
+			ps.execute();
+			
+			success = true;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+		return success;
+	}
+
 
 }

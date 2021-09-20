@@ -15,5 +15,9 @@ public interface BankDAO {
 
 	List<Account> queryAccountsByUserId(List<Account> userAccounts, int id);
 
+	boolean updateAccountBalance(int accountId, double accountBalance);
+
+	
+
 }
 
