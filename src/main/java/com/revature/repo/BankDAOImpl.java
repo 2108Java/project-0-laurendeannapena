@@ -89,7 +89,7 @@ public class BankDAOImpl implements BankDAO{
 			Connection connection = dbConnection.getConnection();
 			
 			//2. Write a SQL statement String
-			String sql = "INSERT INTO accounts(user_id, account_type, account_balance, is_approved) VALUES (?,?,?,?)";
+			String sql = "INSERT INTO accounts(first_user, account_type, account_balance, is_approved) VALUES (?,?,?,?)";
 			
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, newAccount.getUserIdOne());

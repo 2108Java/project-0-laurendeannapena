@@ -1,7 +1,10 @@
 package com.revature.presentation;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import com.revature.models.Account;
 import com.revature.models.User;
 import com.revature.service.BankServices;
 
@@ -92,6 +95,8 @@ public class BankMenusImpl implements BankMenus{
 			case "2":
 				break;
 			case "3":
+				List<Account> userAccounts = new ArrayList<>();
+				accountDisplay(service.listAccounts(userAccounts));
 				break;
 			case "4":
 				break;
@@ -109,6 +114,11 @@ public class BankMenusImpl implements BankMenus{
 			}//end switch statement
 		}//end while loop
 	}//end method customerMenu
+
+	private void accountDisplay(List<Account> userAccounts) {
+		
+		
+	}//end method accountDisplay
 
 	public User loginMenu(Scanner sc) {
 		System.out.println("Username: ");
