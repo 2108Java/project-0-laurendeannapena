@@ -55,11 +55,16 @@ public class BankMenusImpl implements BankMenus{
 		if(menuType.equals("customer")) {
 			customerMenu(currentUser, sc);
 		}
-//		else if(currentUser.getUserType().equals("employee")){
-//			employeeMenu(currentUser, sc);
-//		}//end if statement
+		else if(menuType.equals("employee")){
+			employeeMenu(currentUser, sc);
+		}//end if statement
 		
 	}//end method getMenu
+
+	private void employeeMenu(User currentUser, Scanner sc) {
+		System.out.println("This has yet to be implemented.");
+		
+	}
 
 	private void customerMenu(User currentUser, Scanner sc) {
 		boolean running = true;
@@ -77,6 +82,12 @@ public class BankMenusImpl implements BankMenus{
 			
 			switch(choice) {
 			case "1":
+				if(service.createNewAccount(currentUser, sc)) {
+					System.out.println("Account creation complete. Pending employee approval.");
+				}
+				else{
+					System.out.println("Account creation failed.");
+				}//end if statement
 				break;
 			case "2":
 				break;

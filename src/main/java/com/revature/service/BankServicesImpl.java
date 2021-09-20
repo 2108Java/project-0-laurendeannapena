@@ -1,5 +1,8 @@
 package com.revature.service;
 
+import java.util.Scanner;
+
+import com.revature.models.Account;
 import com.revature.models.User;
 import com.revature.repo.BankDAO;
 
@@ -40,5 +43,27 @@ public class BankServicesImpl implements BankServices{
 	public boolean addUser(User newUser) {
 		// TODO Auto-generated method stub
 		return database.insertUser(newUser);
+	}
+
+	@Override
+	public boolean createNewAccount(User currentUser, Scanner sc) {
+		System.out.println("Enter c for checking account or s for savings account.");
+		String accountType = sc.nextLine();
+		
+		if(accountType.equals("c")) {
+			accountType = "checking";
+		}
+		else if(accountType.equals("s")) {
+			accountType = "savings";
+		}
+		
+		System.out.print("Enter starting balance: $");
+		double balance = Double.parseDouble(sc.nextLine());
+		
+		Account newAccount = new Account(currentUser.getId(), accountType, balance, false);
+		
+		boolean success = database.insertAccount(newAccount);
+		
+		return success;
 	}
 }

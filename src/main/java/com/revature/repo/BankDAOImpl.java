@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.revature.models.Account;
 import com.revature.models.User;
 import com.revature.util.DBConnection;
 
@@ -78,5 +79,35 @@ public class BankDAOImpl implements BankDAO{
 		
 		return success;
 	}//end method insertUser
+
+	@Override
+	public boolean insertAccount(Account newAccount) {
+		boolean success = false;
+		
+		try{
+			//1. Connect to database!
+			Connection connection = dbConnection.getConnection();
+			
+			//2. Write a SQL statement String
+			String sql = "INSERT INTO accounts(user_id, account_type, account_balance, is_approved) VALUES (?,?,?,?)";
+			
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, newAccount.getUserIdOne());
+			ps.setString(2, newAccount.getAccountType());
+			ps.setDouble(3, newAccount.getAccountBalance());
+			ps.setBoolean(4, newAccount.isApproved());
+			
+			ps.execute();
+			
+			success = true;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+		return success;
+	}
 
 }
