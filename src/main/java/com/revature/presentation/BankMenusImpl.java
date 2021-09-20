@@ -96,7 +96,7 @@ public class BankMenusImpl implements BankMenus{
 				break;
 			case "3":
 				List<Account> userAccounts = new ArrayList<>();
-				accountDisplay(service.listAccounts(userAccounts));
+				accountDisplay(service.listAccounts(userAccounts, currentUser));
 				break;
 			case "4":
 				break;
@@ -116,7 +116,13 @@ public class BankMenusImpl implements BankMenus{
 	}//end method customerMenu
 
 	private void accountDisplay(List<Account> userAccounts) {
-		
+		for(Account currentAccount: userAccounts) {
+			if(currentAccount != null) {
+				System.out.println("Account Number: " + currentAccount.getAccountId());
+				System.out.println("Account Balance: " + currentAccount.getAccountBalance());
+				System.out.println("Account Type: " + currentAccount.getAccountType() + "\n");
+			}//end if statement
+		}//end enhanced for loop
 		
 	}//end method accountDisplay
 

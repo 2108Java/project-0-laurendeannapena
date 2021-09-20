@@ -1,5 +1,7 @@
 package com.revature.repo;
 
+import java.util.List;
+
 import com.revature.models.Account;
 import com.revature.models.User;
 
@@ -10,6 +12,8 @@ public interface BankDAO {
 	boolean insertUser(User newUser);
 
 	boolean insertAccount(Account newAccount);
+
+	List<Account> queryAccountsByUserId(List<Account> userAccounts, int id);
 
 }
 

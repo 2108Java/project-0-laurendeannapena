@@ -1,5 +1,6 @@
 package com.revature.service;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.revature.models.Account;
@@ -65,5 +66,11 @@ public class BankServicesImpl implements BankServices{
 		boolean success = database.insertAccount(newAccount);
 		
 		return success;
+	}
+
+	@Override
+	public List<Account> listAccounts(List<Account> userAccounts, User currentUser) {
+		userAccounts = database.queryAccountsByUserId(userAccounts, currentUser.getId());
+		return userAccounts;
 	}
 }

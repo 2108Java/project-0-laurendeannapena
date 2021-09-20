@@ -16,10 +16,6 @@ public interface BankServices {
 
 	boolean createNewAccount(User currentUser, Scanner sc);
 
-	List<Account> listAccounts(List<Account> userAccounts);
-
-	
-
-	
+	List<Account> listAccounts(List<Account> userAccounts, User currentUser);
 
 }

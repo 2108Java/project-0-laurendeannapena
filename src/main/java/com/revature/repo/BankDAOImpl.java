@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import com.revature.models.Account;
 import com.revature.models.User;
@@ -109,5 +110,36 @@ public class BankDAOImpl implements BankDAO{
 		
 		return success;
 	}
+
+	@Override
+	public List<Account> queryAccountsByUserId(List<Account> userAccounts, int id) {
+		
+		try{
+			Connection connection = dbConnection.getConnection();
+			
+			String sql = "SELECT * FROM accounts WHERE is_approved = true AND (first_user = ? OR second_user = ?)";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, id);
+			ps.setInt(2, id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				userAccounts.add(new Account(
+						rs.getInt("account_id"),
+						rs.getInt("first_user"),
+						rs.getInt("second_user"),
+						rs.getString("account_type"),
+						rs.getDouble("account_balance"),
+						rs.getBoolean("is_approved")
+						));
+			}//end while loop
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}//end try catch
+		
+		return userAccounts;
+	}//end method queryAccountsByUserId
 
 }
