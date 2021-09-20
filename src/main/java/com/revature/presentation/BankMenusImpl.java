@@ -31,16 +31,74 @@ public class BankMenusImpl implements BankMenus{
 					login = false;
 				}//end if statement
 			}//end while loop
+			
+			//once the user has logged in display the credential specific menu options
+			getMenu(currentUser, sc);
 			break;
+		
 		case "2":
-			currentUser = registrationMenu(sc);			
+			currentUser = registrationMenu(sc);
+			
+			//once the user has registered display the credential specific menu options
+			getMenu(currentUser, sc);
 			break;
+		
 		default:
 			System.out.println("Please choose to login or register for an account.");
 		}//end switch statement
 		
 	}
 	
+	private void getMenu(User currentUser, Scanner sc) {
+		String menuType = currentUser.getUserType();
+		
+		if(menuType.equals("customer")) {
+			customerMenu(currentUser, sc);
+		}
+//		else if(currentUser.getUserType().equals("employee")){
+//			employeeMenu(currentUser, sc);
+//		}//end if statement
+		
+	}//end method getMenu
+
+	private void customerMenu(User currentUser, Scanner sc) {
+		boolean running = true;
+		while(running) {
+			System.out.println("1. Create new account.");
+			System.out.println("2. Apply for joint account.");
+			System.out.println("3. View account balances.");
+			System.out.println("4. Make a withdrawal.");
+			System.out.println("5. Make a deposit.");
+			System.out.println("6. Transfer money to another user.");
+			System.out.println("7. View pending money transfers.");
+			System.out.println("0. Logout.");
+			
+			String choice = sc.nextLine();
+			
+			switch(choice) {
+			case "1":
+				break;
+			case "2":
+				break;
+			case "3":
+				break;
+			case "4":
+				break;
+			case "5":
+				break;
+			case "6":
+				break;
+			case "7":
+				break;
+			case "0":
+				running = false;
+				break;
+			default:
+				System.out.println("Please select a valid optiion.");
+			}//end switch statement
+		}//end while loop
+	}//end method customerMenu
+
 	public User loginMenu(Scanner sc) {
 		System.out.println("Username: ");
 		String username = sc.nextLine();
@@ -101,4 +159,5 @@ public class BankMenusImpl implements BankMenus{
 		}//end if statement
 		return newUser;
 	}//end method registrationMethod
+
 }
