@@ -1,5 +1,9 @@
 package com.revature.service;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -164,5 +168,28 @@ public class BankServicesImpl implements BankServices{
 	public boolean approveAccountById(int accountId) {
 		
 		return database.updateAccountById(accountId);
+	}
+
+	@Override
+	public void viewTransactionLog() {
+		String filePath = "C:\\Users\\laure\\Desktop\\project-0-laurendeannapena\\src\\main\\resources\\project0-log4j.log";
+		String line = null;
+		try {
+			BufferedReader in = new BufferedReader(new FileReader(filePath));
+			
+			while((line = in.readLine()) != null) {
+				System.out.print(line);
+			}//end while loop
+			System.out.println("");
+			in.close();
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
 	}
 }

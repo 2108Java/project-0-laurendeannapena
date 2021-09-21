@@ -89,11 +89,14 @@ public class BankMenusImpl implements BankMenus{
 				reviewAccountMenu(sc);				
 				break;
 			case "2":
+				
 				break;
 			case "3":
+				service.viewTransactionLog();
 				break;
 			case "0":
 				running = false;
+				loggy.info("User logged out.");
 				break;
 			default:
 				System.out.println("Please select a valid option.");

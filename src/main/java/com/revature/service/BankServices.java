@@ -30,4 +30,6 @@ public interface BankServices {
 
 	boolean approveAccountById(int accountId);
 
+	void viewTransactionLog();
+
 }
