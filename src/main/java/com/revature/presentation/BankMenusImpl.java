@@ -23,9 +23,11 @@ public class BankMenusImpl implements BankMenus{
 	public void display() {
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("1) Login to existing account.");
-		System.out.println("2) Register for new account.");
+		System.out.println("1. Login to existing account.");
+		System.out.println("2. Register for new account.");
 		String userChoice = sc.nextLine();
+		
+		loggy.info("User selected" + userChoice);
 		
 		switch(userChoice) {
 		case "1":
@@ -52,6 +54,7 @@ public class BankMenusImpl implements BankMenus{
 		
 		default:
 			System.out.println("Please choose to login or register for an account.");
+			loggy.warn("User choice was invalid.");
 		}//end switch statement
 		
 	}
@@ -61,9 +64,11 @@ public class BankMenusImpl implements BankMenus{
 		
 		if(menuType.equals("customer")) {
 			customerMenu(currentUser, sc);
+			loggy.info("Application displays the customer menu.");
 		}
 		else if(menuType.equals("employee")){
 			employeeMenu(currentUser, sc);
+			loggy.info("Application displays the employee menu.");
 		}//end if statement
 		
 	}//end method getMenu
@@ -81,11 +86,12 @@ public class BankMenusImpl implements BankMenus{
 			System.out.println("3. View account balances.");
 			System.out.println("4. Make a withdrawal.");
 			System.out.println("5. Make a deposit.");
-			System.out.println("6. Transfer money to another user.");
+			System.out.println("6. Transfer money.");
 			System.out.println("7. View pending money transfers.");
 			System.out.println("0. Logout.");
 			
 			String choice = sc.nextLine();
+			loggy.info("User entered: " + choice);
 			
 			switch(choice) {
 			case "1":
@@ -132,7 +138,8 @@ public class BankMenusImpl implements BankMenus{
 				running = false;
 				break;
 			default:
-				System.out.println("Please select a valid optiion.");
+				System.out.println("Please select a valid option.");
+				loggy.warn("User choice was invalid.");
 			}//end switch statement
 		}//end while loop
 	}//end method customerMenu
@@ -145,15 +152,17 @@ public class BankMenusImpl implements BankMenus{
 				System.out.println("Account Type: " + currentAccount.getAccountType() + "\n");
 			}//end if statement
 		}//end enhanced for loop
-		
+		loggy.info("Format and display account information.");
 	}//end method accountDisplay
 
 	public User loginMenu(Scanner sc) {
 		System.out.println("Username: ");
 		String username = sc.nextLine();
+		loggy.info("User entered username: "+ username);
 		
 		System.out.println("Password: ");
 		String password = sc.nextLine();
+		loggy.info("User entered password: " + password);
 		
 		boolean login = service.authenticate(username, password);
 		User currentUser = null;
@@ -161,9 +170,11 @@ public class BankMenusImpl implements BankMenus{
 		if(login) {
 			System.out.println("Login succeeded.");
 			currentUser = service.getUserByUsername(username);
+			loggy.info("User logged in successfully.");
 		}
 		else {
 			System.out.println("Login attempt failed. Please try again.");
+			loggy.warn("Login attempt failed.");
 		}//end if statement
 		return currentUser;
 	}//end method loginMenu
@@ -172,39 +183,49 @@ public class BankMenusImpl implements BankMenus{
 		//get user input for account creation
 		System.out.println("Username: ");
 		String username = sc.nextLine();
+		loggy.info("User entered username: " + username);
 		
 		System.out.println("Password: ");
 		String user_password = sc.nextLine();
+		loggy.info("User entered password: "+ user_password);
 		
 		System.out.println("First name: ");
 		String first_name = sc.nextLine();
+		loggy.info("User entered first name: " + first_name);
 		
 		System.out.println("Last name: ");
 		String last_name = sc.nextLine();
+		loggy.info("User entered last name: " + last_name);
 		
-		System.out.println("Are you an employee?(y/n): ");
-		String user_type = sc.nextLine();
-		
-		//check user input to determine user type
-		if(user_type.equals("y")) {
-			user_type = "employee";
-			//System.out.println("I am an employee!");
-		}
-		else if(user_type.equals("n")) {
-			user_type = "customer";
-			//System.out.println("I am a customer!");
-		}//end if statement
+//		System.out.println("Are you an employee?(y/n): ");
+//		String user_type = sc.nextLine();
+//		
+//		//check user input to determine user type
+//		if(user_type.equals("y")) {
+//			user_type = "employee";
+//			loggy.info("User is an employee.");
+//		}
+//		else if(user_type.equals("n")) {
+//			user_type = "customer";
+//			loggy.info("User is a customer.");
+//		}
+//		else{
+//			loggy.warn("User did not select customer or employee.");
+//		}//end if statement
 		
 		//create new user
-		User newUser = new User(username, user_password, first_name, last_name, user_type);
+		User newUser = new User(username, user_password, first_name, last_name, "customer");
+		loggy.info("Java User object created.");
 		
 		
 		if(service.addUser(newUser)) {
 			System.out.println("User created successfully.");
 			newUser = service.getUserByUsername(username);
+			loggy.info("Bank user successfully created in database.");
 		}
 		else {
 			System.out.println("User not created.");
+			loggy.info("Bank user not created in database.");
 		}//end if statement
 		return newUser;
 	}//end method registrationMethod
