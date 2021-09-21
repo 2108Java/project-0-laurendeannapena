@@ -16,12 +16,18 @@ public interface BankServices {
 
 	boolean createNewAccount(User currentUser, Scanner sc);
 
-	List<Account> listAccounts(List<Account> userAccounts, User currentUser);
+	List<Account> listAccountsByUser(List<Account> userAccounts, User currentUser);
 
 	boolean depositFunds(User currentUser, Scanner sc);
 
 	boolean withdrawalFunds(User currentUser, Scanner sc);
 
 	boolean transferMoneyByUsername(User currentUser, Scanner sc);
+
+	List<Account> viewPendingAccounts(List<Account> pendingAccounts);
+
+	boolean rejectAccountById(int accountId);
+
+	boolean approveAccountById(int accountId);
 
 }

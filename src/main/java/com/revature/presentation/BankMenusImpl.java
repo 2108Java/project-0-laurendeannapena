@@ -74,7 +74,76 @@ public class BankMenusImpl implements BankMenus{
 	}//end method getMenu
 
 	private void employeeMenu(User currentUser, Scanner sc) {
-		System.out.println("This has yet to be implemented.");
+		boolean running = true;
+		while(running) {
+			System.out.println("1. Review pending account registrations.");
+			System.out.println("2. View a customer's accounts.");
+			System.out.println("3. View transaction log.");
+			System.out.println("0. Logout.");
+			
+			String choice = sc.nextLine();
+			loggy.info("User entered: " + choice);
+			
+			switch(choice) {
+			case "1":
+				reviewAccountMenu(sc);				
+				break;
+			case "2":
+				break;
+			case "3":
+				break;
+			case "0":
+				running = false;
+				break;
+			default:
+				System.out.println("Please select a valid option.");
+				loggy.warn("User choice was invalid.");
+			}//end switch statement
+		}//end while loop
+		
+	}
+
+	private void reviewAccountMenu(Scanner sc) {
+		List<Account> pendingAccounts = new ArrayList<>();
+		
+		boolean running = true;
+		while(running) {
+			service.viewPendingAccounts(pendingAccounts);
+			accountDisplay(pendingAccounts);
+			
+			System.out.println("1. Reject account.");
+			System.out.println("2. Approve account.");
+			System.out.println("0. Exit.");
+			String choice = sc.nextLine();
+			
+			switch(choice) {
+			case "1":
+				System.out.println("Enter rejected account number:");
+				int accountId = Integer.parseInt(sc.nextLine());
+				if(service.rejectAccountById(accountId)) {
+					System.out.println("Account successfully deleted.");
+					loggy.info("Account #" + accountId + "rejected.");
+				}
+				else {
+					System.out.println("Operation failed.");
+				}
+				break;
+			case "2":
+				System.out.println("Enter approved account number: ");
+				accountId = Integer.parseInt(sc.nextLine());
+				if(service.approveAccountById(accountId)) {
+					System.out.println("Account approved.");
+					loggy.info("Account #" + accountId + "approved.");
+				}
+				else {
+					System.out.println("Account approval failed.");
+				}
+				break;
+			case "0":
+				running = false;
+				break;
+			}//end switch statement
+		}//end while loop
 		
 	}
 
@@ -87,7 +156,7 @@ public class BankMenusImpl implements BankMenus{
 			System.out.println("4. Make a withdrawal.");
 			System.out.println("5. Make a deposit.");
 			System.out.println("6. Transfer money.");
-			System.out.println("7. View pending money transfers.");
+			System.out.println("7. Review pending money transfers.");
 			System.out.println("0. Logout.");
 			
 			String choice = sc.nextLine();
@@ -106,7 +175,7 @@ public class BankMenusImpl implements BankMenus{
 				break;
 			case "3":
 				List<Account> userAccounts = new ArrayList<>();
-				accountDisplay(service.listAccounts(userAccounts, currentUser));
+				accountDisplay(service.listAccountsByUser(userAccounts, currentUser));
 				break;
 			case "4":
 				if(service.withdrawalFunds(currentUser, sc)) {

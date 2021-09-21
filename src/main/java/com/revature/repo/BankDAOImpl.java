@@ -175,5 +175,81 @@ public class BankDAOImpl implements BankDAO{
 		return success;
 	}
 
+	@Override
+	public List<Account> selectPendingAccounts(List<Account> pendingAccounts) {
+		try{
+			Connection connection = dbConnection.getConnection();
+			
+			String sql = "SELECT * FROM accounts WHERE is_approved = ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setBoolean(1, false);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				pendingAccounts.add(new Account(
+						rs.getInt("account_id"),
+						rs.getInt("first_user"),
+						rs.getInt("second_user"),
+						rs.getString("account_type"),
+						rs.getDouble("account_balance"),
+						rs.getBoolean("is_approved")
+						));
+			}//end while loop
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}//end try catch
+		
+		return pendingAccounts;
+	}
+
+	@Override
+	public boolean deleteAccountById(int accountId) {
+		boolean success = false;
+		
+		try{
+			Connection connection = dbConnection.getConnection();
+			
+			String sql = "DELETE FROM accounts WHERE account_id = ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, accountId);
+			
+			ps.execute();
+			
+			success = true;
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}//end try catch
+		
+		return success;
+	}//end method deleteAccountById
+
+	@Override
+	public boolean updateAccountById(int accountId) {
+		boolean success = false;
+		
+		try{
+			Connection connection = dbConnection.getConnection();
+			
+			String sql = "UPDATE accounts SET is_approved = ? WHERE account_id = ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setBoolean(1, true);
+			ps.setInt(2, accountId);
+			
+			ps.execute();
+			
+			success = true;
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}//end try catch
+		
+		return success;
+	}//end method updateAccountById
+
 
 }

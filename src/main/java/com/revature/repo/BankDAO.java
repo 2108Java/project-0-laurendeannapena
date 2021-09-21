@@ -17,6 +17,12 @@ public interface BankDAO {
 
 	boolean updateAccountBalance(int accountId, double accountBalance);
 
+	List<Account> selectPendingAccounts(List<Account> pendingAccounts);
+
+	boolean deleteAccountById(int accountId);
+
+	boolean updateAccountById(int accountId);
+
 	
 
 }

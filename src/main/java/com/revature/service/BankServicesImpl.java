@@ -77,7 +77,7 @@ public class BankServicesImpl implements BankServices{
 
 	//get all of a users approved accounts
 	@Override
-	public List<Account> listAccounts(List<Account> userAccounts, User currentUser) {
+	public List<Account> listAccountsByUser(List<Account> userAccounts, User currentUser) {
 		userAccounts = database.queryAccountsByUserId(userAccounts, currentUser.getId());
 		return userAccounts;
 	}
@@ -87,7 +87,7 @@ public class BankServicesImpl implements BankServices{
 	public boolean depositFunds(User currentUser, Scanner sc) {
 		boolean success = false;
 		List<Account> userAccounts = new ArrayList<>();
-		userAccounts = listAccounts(userAccounts, currentUser);
+		userAccounts = listAccountsByUser(userAccounts, currentUser);
 		
 		System.out.println("Enter account #");
 		int accountId = Integer.parseInt(sc.nextLine());
@@ -111,7 +111,7 @@ public class BankServicesImpl implements BankServices{
 	public boolean withdrawalFunds(User currentUser, Scanner sc) {
 		boolean success = false;
 		List<Account> userAccounts = new ArrayList<>();
-		userAccounts = listAccounts(userAccounts, currentUser);
+		userAccounts = listAccountsByUser(userAccounts, currentUser);
 		
 		System.out.println("Enter account #");
 		int accountId = Integer.parseInt(sc.nextLine());
@@ -146,5 +146,23 @@ public class BankServicesImpl implements BankServices{
 		}
 		
 		return false;
+	}
+
+	@Override
+	public List<Account> viewPendingAccounts(List<Account> pendingAccounts) {
+		
+		return database.selectPendingAccounts(pendingAccounts);
+	}
+
+	@Override
+	public boolean rejectAccountById(int accountId) {
+		
+		return database.deleteAccountById(accountId);
+	}
+
+	@Override
+	public boolean approveAccountById(int accountId) {
+		
+		return database.updateAccountById(accountId);
 	}
 }
