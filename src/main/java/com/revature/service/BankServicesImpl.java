@@ -189,7 +189,17 @@ public class BankServicesImpl implements BankServices{
 			e.printStackTrace();
 		}
 		
+	}//end method viewTransactionLog
+
+	@Override
+	public List<Account> listAccountsByUser(List<Account> userAccounts, int userId) {
+		userAccounts = database.queryAccountsByUserId(userAccounts, userId);
+		return userAccounts;
+	}
+
+	@Override
+	public List<User> getListOfCustomers() {
 		
-		
+		return database.selectCustomers();
 	}
 }

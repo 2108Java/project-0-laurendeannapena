@@ -23,6 +23,8 @@ public interface BankDAO {
 
 	boolean updateAccountById(int accountId);
 
+	List<User> selectCustomers();
+
 	
 
 }

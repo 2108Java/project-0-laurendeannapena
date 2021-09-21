@@ -17,6 +17,8 @@ public interface BankServices {
 	boolean createNewAccount(User currentUser, Scanner sc);
 
 	List<Account> listAccountsByUser(List<Account> userAccounts, User currentUser);
+	
+	List<Account> listAccountsByUser(List<Account> userAccounts, int userId);
 
 	boolean depositFunds(User currentUser, Scanner sc);
 
@@ -31,5 +33,7 @@ public interface BankServices {
 	boolean approveAccountById(int accountId);
 
 	void viewTransactionLog();
+
+	List<User> getListOfCustomers();
 
 }

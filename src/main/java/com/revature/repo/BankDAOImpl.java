@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -250,6 +251,37 @@ public class BankDAOImpl implements BankDAO{
 		
 		return success;
 	}//end method updateAccountById
+
+	@Override
+	public List<User> selectCustomers() {
+		List<User> userList = new ArrayList<>();
+		
+		try{
+			Connection connection = dbConnection.getConnection();
+			
+			String sql = "SELECT * FROM users WHERE user_type = ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, "customer");
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				userList.add(new User(
+						rs.getInt("user_id"),
+						rs.getString("username"),
+						rs.getString("user_password"),
+						rs.getString("first_name"),
+						rs.getString("last_name"),
+						rs.getString("user_type")
+						));
+			}//end while loop
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}//end try catch
+		
+		return userList;
+	}
 
 
 }

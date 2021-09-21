@@ -79,7 +79,7 @@ public class BankMenusImpl implements BankMenus{
 				reviewAccountMenu(sc);				
 				break;
 			case "2":
-				
+				customerSelectionMenu(sc);
 				break;
 			case "3":
 				service.viewTransactionLog();
@@ -93,6 +93,31 @@ public class BankMenusImpl implements BankMenus{
 				loggy.warn("User choice was invalid.");
 			}//end switch statement
 		}//end while loop
+		
+	}
+
+	private void customerSelectionMenu(Scanner sc) {
+		displayListOfUsers();
+		
+		System.out.println("Enter a customer Id to view their accounts: ");
+		int customerId = Integer.parseInt(sc.nextLine());
+		
+		List<Account> customerAccounts = new ArrayList<>();
+		customerAccounts = service.listAccountsByUser(customerAccounts, customerId);
+		
+		accountDisplay(customerAccounts);
+	}
+
+	private void displayListOfUsers() {
+		List<User> users = new ArrayList<>();
+		users = service.getListOfCustomers();
+		
+		for(User user: users) {
+			System.out.println("User Id: " + user.getId());
+			System.out.println("Name: " + user.getFirstName() + " " + user.getLastName());
+		}//end enhanced for loop
+		
+		System.out.println("");
 		
 	}
 
