@@ -7,12 +7,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import com.revature.MainDriver;
 import com.revature.models.Account;
 import com.revature.models.User;
 import com.revature.util.DBConnection;
 
 public class BankDAOImpl implements BankDAO{
 
+	final static Logger loggy = Logger.getLogger(BankDAOImpl.class);
 	DBConnection dbConnection;
 	
 	public BankDAOImpl(DBConnection dbConnection) {

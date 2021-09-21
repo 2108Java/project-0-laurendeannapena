@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
+import com.revature.MainDriver;
 import com.revature.models.Account;
 import com.revature.models.User;
 import com.revature.repo.BankDAO;
 
 public class BankServicesImpl implements BankServices{
 	
+	final static Logger loggy = Logger.getLogger(BankServicesImpl.class);
 	BankDAO database;
 	
 	public BankServicesImpl(BankDAO database) {
@@ -126,5 +130,21 @@ public class BankServicesImpl implements BankServices{
 		}//end enhanced for loop
 		
 		return success;
+	}
+
+	@Override
+	public boolean transferMoneyByUsername(User currentUser, Scanner sc) {
+		System.out.println("Enter the recipient's username:");
+		String transferRecipient = sc.nextLine();
+		
+		if(getUserByUsername(transferRecipient) != null) {
+			System.out.print("Enter transfer amount: $");
+			double transferAmount = Double.parseDouble(sc.nextLine());
+		}
+		else {
+			System.out.println("User does not exist.");
+		}
+		
+		return false;
 	}
 }

@@ -9,10 +9,10 @@ user_type varchar(8) not null
 
 create table accounts(
 account_id serial unique,
-username varchar(30) references users(username),
-username2 varchar(30) references users(username),
+first_user int REFERENCES users(user_id),
+second_user int REFERENCES users(user_id),
 account_type varchar(14),
-account_balance decimal(2),
+account_balance decimal,
 is_approved boolean
 );
 

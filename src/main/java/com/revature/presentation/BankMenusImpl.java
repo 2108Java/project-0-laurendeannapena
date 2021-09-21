@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
+import com.revature.MainDriver;
 import com.revature.models.Account;
 import com.revature.models.User;
 import com.revature.service.BankServices;
 
 public class BankMenusImpl implements BankMenus{
 
+	final static Logger loggy = Logger.getLogger(BankMenusImpl.class);
 	BankServices service;
 	
 	public BankMenusImpl(BankServices service) {
@@ -115,6 +119,12 @@ public class BankMenusImpl implements BankMenus{
 				}//end if statement
 				break;
 			case "6":
+				if(service.transferMoneyByUsername(currentUser, sc)) {
+					System.out.println("Money transfer is now pending approval.");
+				}
+				else {
+					System.out.println("Transfer failed.");
+				}
 				break;
 			case "7":
 				break;

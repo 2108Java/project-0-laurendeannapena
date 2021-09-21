@@ -22,4 +22,6 @@ public interface BankServices {
 
 	boolean withdrawalFunds(User currentUser, Scanner sc);
 
+	boolean transferMoneyByUsername(User currentUser, Scanner sc);
+
 }
