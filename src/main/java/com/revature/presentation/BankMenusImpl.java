@@ -25,50 +25,40 @@ public class BankMenusImpl implements BankMenus{
 		
 		System.out.println("1. Login to existing account.");
 		System.out.println("2. Register for new account.");
+		System.out.println("0. Exit application.");
 		String userChoice = sc.nextLine();
 		
 		loggy.info("User selected" + userChoice);
 		
-		switch(userChoice) {
-		case "1":
-			boolean login = true;
-			User currentUser = null;
-			
-			while(login) {
-				currentUser = loginMenu(sc);
-				if(currentUser != null) {
-					login = false;
-				}//end if statement
-			}//end while loop
-			
-			//once the user has logged in display the credential specific menu options
-			getMenu(currentUser, sc);
-			break;
-		
-		case "2":
-			currentUser = registrationMenu(sc);
-			
-			//once the user has registered display the credential specific menu options
-			getMenu(currentUser, sc);
-			break;
-		
-		default:
-			System.out.println("Please choose to login or register for an account.");
-			loggy.warn("User choice was invalid.");
-		}//end switch statement
-		
+			switch(userChoice) {
+			case "1":
+				User currentUser = loginMenu(sc);
+				
+				//once the user has logged in display the credential specific menu options
+				getMenu(currentUser, sc);
+				break;
+			case "2":
+				currentUser = registrationMenu(sc);
+				
+				//once the user has registered display the credential specific menu options
+				getMenu(currentUser, sc);
+				break;
+			default:
+				System.out.println("Please choose to login or register for an account.");
+				loggy.warn("User choice was invalid.");
+			}//end switch statement
 	}
 	
 	private void getMenu(User currentUser, Scanner sc) {
 		String menuType = currentUser.getUserType();
 		
 		if(menuType.equals("customer")) {
-			customerMenu(currentUser, sc);
 			loggy.info("Application displays the customer menu.");
+			customerMenu(currentUser, sc);
 		}
 		else if(menuType.equals("employee")){
-			employeeMenu(currentUser, sc);
 			loggy.info("Application displays the employee menu.");
+			employeeMenu(currentUser, sc);
 		}//end if statement
 		
 	}//end method getMenu
@@ -208,6 +198,7 @@ public class BankMenusImpl implements BankMenus{
 				break;
 			case "0":
 				running = false;
+				loggy.info("User logged out.");
 				break;
 			default:
 				System.out.println("Please select a valid option.");
@@ -228,26 +219,31 @@ public class BankMenusImpl implements BankMenus{
 	}//end method accountDisplay
 
 	public User loginMenu(Scanner sc) {
-		System.out.println("Username: ");
-		String username = sc.nextLine();
-		loggy.info("User entered username: "+ username);
-		
-		System.out.println("Password: ");
-		String password = sc.nextLine();
-		loggy.info("User entered password: " + password);
-		
-		boolean login = service.authenticate(username, password);
+		boolean login = false;
 		User currentUser = null;
 		
-		if(login) {
-			System.out.println("Login succeeded.");
-			currentUser = service.getUserByUsername(username);
-			loggy.info("User logged in successfully.");
+		while(!login) {
+			System.out.println("Username: ");
+			String username = sc.nextLine();
+			loggy.info("User entered username: "+ username);
+			
+			System.out.println("Password: ");
+			String password = sc.nextLine();
+			loggy.info("User entered password: " + password);
+			
+			login = service.authenticate(username, password);
+			
+			if(login) {
+				System.out.println("Login succeeded.");
+				currentUser = service.getUserByUsername(username);
+				loggy.info("User logged in successfully.");
+			}
+			else {
+				System.out.println("Login attempt failed. Please try again.");
+				loggy.warn("Login attempt failed.");
+			}//end if statement
 		}
-		else {
-			System.out.println("Login attempt failed. Please try again.");
-			loggy.warn("Login attempt failed.");
-		}//end if statement
+		
 		return currentUser;
 	}//end method loginMenu
 	
