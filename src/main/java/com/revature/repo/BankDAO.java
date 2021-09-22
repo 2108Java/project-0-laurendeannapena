@@ -3,6 +3,7 @@ package com.revature.repo;
 import java.util.List;
 
 import com.revature.models.Account;
+import com.revature.models.MoneyTransfer;
 import com.revature.models.User;
 
 public interface BankDAO {
@@ -24,6 +25,12 @@ public interface BankDAO {
 	boolean updateAccountById(int accountId);
 
 	List<User> selectCustomers();
+
+	boolean transferFunds(MoneyTransfer transfer);
+
+	List<MoneyTransfer> getTransfers(List<MoneyTransfer> pendingTransfers);
+
+	boolean deleteTransferById(int transferId);
 
 	
 

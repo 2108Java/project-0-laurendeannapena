@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.revature.models.Account;
+import com.revature.models.MoneyTransfer;
 import com.revature.models.User;
 
 public interface BankServices {
@@ -24,8 +25,6 @@ public interface BankServices {
 
 	boolean withdrawalFunds(User currentUser, Scanner sc);
 
-	boolean transferMoneyByUsername(User currentUser, Scanner sc);
-
 	List<Account> viewPendingAccounts(List<Account> pendingAccounts);
 
 	boolean rejectAccountById(int accountId);
@@ -35,5 +34,13 @@ public interface BankServices {
 	void viewTransactionLog();
 
 	List<User> getListOfCustomers();
+
+	boolean transferFunds(int toAccount, int fromAccount, double transferAmount);
+
+	List<MoneyTransfer> viewTransfers(List<Account> accountList, List<MoneyTransfer> pendingTransfers);
+
+	boolean rejectTransfer(int transferId);
+
+	boolean approveTransfer(int transferId, List<MoneyTransfer> pendingTransfers, List<Account> accountList);
 
 }

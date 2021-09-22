@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import com.revature.MainDriver;
 import com.revature.models.Account;
+import com.revature.models.MoneyTransfer;
 import com.revature.models.User;
 import com.revature.repo.BankDAO;
 
@@ -175,22 +176,6 @@ public class BankServicesImpl implements BankServices{
 	}
 
 	@Override
-	public boolean transferMoneyByUsername(User currentUser, Scanner sc) {
-		System.out.println("Enter the recipient's username:");
-		String transferRecipient = sc.nextLine();
-		
-		if(getUserByUsername(transferRecipient) != null) {
-			System.out.print("Enter transfer amount: $");
-			double transferAmount = Double.parseDouble(sc.nextLine());
-		}
-		else {
-			System.out.println("User does not exist.");
-		}
-		
-		return false;
-	}
-
-	@Override
 	public List<Account> viewPendingAccounts(List<Account> pendingAccounts) {
 		
 		return database.selectPendingAccounts(pendingAccounts);
@@ -239,5 +224,60 @@ public class BankServicesImpl implements BankServices{
 	public List<User> getListOfCustomers() {
 		
 		return database.selectCustomers();
+	}
+
+	@Override
+	public boolean transferFunds(int toAccount, int fromAccount, double transferAmount) {
+		MoneyTransfer transfer = new MoneyTransfer(toAccount, fromAccount, transferAmount);
+		
+		return database.transferFunds(transfer);
+	}
+
+	
+	@Override
+	public List<MoneyTransfer> viewTransfers(List<Account> accountList, List<MoneyTransfer> pendingTransfers) {
+		pendingTransfers = database.getTransfers(pendingTransfers);
+		
+		List<MoneyTransfer> customersPendingTransfers = new ArrayList<>();
+		
+		for(MoneyTransfer transfer: pendingTransfers) {
+			int accountId = transfer.getToAccount();
+			for(Account account: accountList) {
+				if(accountId == account.getAccountId()) {
+					customersPendingTransfers.add(transfer);
+				}//end if statement
+			}//end enhanced for loop
+		}//end enhanced for loop
+		return customersPendingTransfers;
+	}
+
+	@Override
+	public boolean rejectTransfer(int transferId) {
+		
+		return database.deleteTransferById(transferId);
+	}
+
+	@Override
+	public boolean approveTransfer(int transferId, List<MoneyTransfer> pendingTransfers, List<Account> accountList) {
+		boolean success = false;
+		
+		for(MoneyTransfer transfer: pendingTransfers) {
+			if(transfer.getTransferId() == transferId) {
+				for(Account account: accountList) {
+					if(transfer.getFromAccount() == account.getAccountId()) {
+						account.setAccountBalance(-transfer.getTransferAmount());
+						success = database.updateAccountBalance(account.getAccountId(), account.getAccountBalance());
+					}
+					else if(transfer.getToAccount() == account.getAccountId()){
+						account.setAccountBalance(transfer.getTransferAmount());
+						success = database.updateAccountBalance(account.getAccountId(), account.getAccountBalance());
+					}//end if statement
+				}//end for loop
+			}//end if statement
+		}//end for loop
+		
+		success = database.deleteTransferById(transferId);
+		
+		return success;
 	}
 }

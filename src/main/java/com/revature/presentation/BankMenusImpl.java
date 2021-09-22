@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import com.revature.MainDriver;
 import com.revature.models.Account;
+import com.revature.models.MoneyTransfer;
 import com.revature.models.User;
 import com.revature.service.BankServices;
 
@@ -232,14 +233,10 @@ public class BankMenusImpl implements BankMenus{
 				}//end if statement
 				break;
 			case "5":
-				if(service.transferMoneyByUsername(currentUser, sc)) {
-					System.out.println("Money transfer is now pending approval.");
-				}
-				else {
-					System.out.println("Transfer failed.");
-				}
+				transferFundsMenu(sc, currentUser);
 				break;
 			case "6":
+				reviewTransferOfFunds(sc, currentUser);
 				break;
 			case "0":
 				running = false;
@@ -251,6 +248,90 @@ public class BankMenusImpl implements BankMenus{
 			}//end switch statement
 		}//end while loop
 	}//end method customerMenu
+
+	private void reviewTransferOfFunds(Scanner sc, User currentUser) {
+		List<Account> accountList = new ArrayList<>();
+		accountList = service.listAccountsByUser(accountList, currentUser);
+		
+		boolean running = true;
+		while(running) {
+			List<MoneyTransfer> pendingTransfers = new ArrayList<>();
+			pendingTransfers = service.viewTransfers(accountList, pendingTransfers);
+			
+			displayTransfers(pendingTransfers);
+			System.out.println("1. Reject transfer.");
+			System.out.println("2. Approve transfer.");
+			System.out.println("0. Exit.");
+			String choice = sc.nextLine();
+			
+			switch(choice) {
+			case "1":
+				System.out.println("Transfer Id: ");
+				int transferId = Integer.parseInt(sc.nextLine());
+				if(service.rejectTransfer(transferId)) {
+					System.out.println("Transfer rejected.");
+				}
+				else {
+					System.out.println("Transfer rejection failed.");
+				}
+				break;
+			case "2":
+				System.out.println("Transfer Id: ");
+				transferId = Integer.parseInt(sc.nextLine());
+				if(service.approveTransfer(transferId, pendingTransfers, accountList)) {
+					System.out.println("Transfer approved.");
+				}
+				else {
+					System.out.println("Transfer approval failed.");
+				}
+				break;
+			case "0":
+				running = false;
+				break;
+			default:
+				loggy.info("User entered invalid input.");
+				System.out.println("Please enter 1, 2, or 0.");
+			}//end switch statement
+		}//end while loop
+		
+	}
+
+	private void displayTransfers(List<MoneyTransfer> pendingTransfers) {
+		for(MoneyTransfer transfer: pendingTransfers) {
+			System.out.println("Transfer id: " + transfer.getTransferId());
+			System.out.println("Transfer from account #" + transfer.getFromAccount());
+			System.out.println("Transfer to account #" + transfer.getToAccount());
+			System.out.println("Transfer amount $" + transfer.getTransferAmount());
+		}
+		
+	}
+
+	private void transferFundsMenu(Scanner sc, User currentUser) {
+		List<Account> userAccounts = new ArrayList<>();
+		accountDisplay(service.listAccountsByUser(userAccounts, currentUser));
+		
+		System.out.println("Transfer funds from account #");
+		int fromAccount = Integer.parseInt(sc.nextLine());
+		loggy.info("User input account: " + fromAccount);
+		
+		System.out.println("Transfer funds to account #");
+		int toAccount = Integer.parseInt(sc.nextLine());
+		loggy.info("User input account: " + toAccount);
+		
+		System.out.println("Transfer amount $");
+		double transferAmount = Double.parseDouble(sc.nextLine());
+		loggy.info("User input transfer amount: " + transferAmount);
+		
+		if(transferAmount > 0 && service.transferFunds(toAccount, fromAccount, transferAmount)) {
+			System.out.println("Transfer posted. Pending user approval.");
+			loggy.info("Transfer of funds is pending.");
+		}
+		else {
+			System.out.println("Transfer failed.");
+			loggy.warn("Transfer of funds failed.");
+		}//end if statement
+		
+	}
 
 	private void accountDisplay(List<Account> userAccounts) {
 		for(Account currentAccount: userAccounts) {

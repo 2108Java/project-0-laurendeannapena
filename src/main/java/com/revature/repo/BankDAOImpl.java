@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import com.revature.MainDriver;
 import com.revature.models.Account;
+import com.revature.models.MoneyTransfer;
 import com.revature.models.User;
 import com.revature.util.DBConnection;
 
@@ -282,6 +283,82 @@ public class BankDAOImpl implements BankDAO{
 		}//end try catch
 		
 		return userList;
+	}
+
+	@Override
+	public boolean transferFunds(MoneyTransfer transfer) {
+		boolean success = false;
+		
+		try{
+			//1. Connect to database!
+			Connection connection = dbConnection.getConnection();
+			
+			//2. Write a SQL statement String
+			String sql = "INSERT INTO pending_transfers(from_account, to_account, transfer_amount) VALUES (?,?,?) ";
+			
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, transfer.getFromAccount());
+			ps.setInt(2, transfer.getToAccount());
+			ps.setDouble(3, transfer.getTransferAmount());
+			
+			ps.execute();
+			
+			success = true;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return success;
+	}
+
+	@Override
+	public List<MoneyTransfer> getTransfers(List<MoneyTransfer> pendingTransfers) {
+		try{
+			Connection connection = dbConnection.getConnection();
+			
+			String sql = "SELECT * FROM pending_transfers";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				pendingTransfers.add(new MoneyTransfer(
+						rs.getInt("transfer_id"),
+						rs.getInt("from_account"),
+						rs.getInt("to_account"),
+						rs.getDouble("transfer_amount")
+						));
+			}//end while loop
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}//end try catch
+		return pendingTransfers;
+	}
+
+	@Override
+	public boolean deleteTransferById(int transferId) {
+		boolean success = false;
+		
+		try{
+			Connection connection = dbConnection.getConnection();
+			
+			String sql = "DELETE FROM pending_transfers WHERE transfer_id = ?";
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, transferId);
+			
+			ps.execute();
+			
+			success = true;
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}//end try catch
+		
+		return success;
 	}
 
 
