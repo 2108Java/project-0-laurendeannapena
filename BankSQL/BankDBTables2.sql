@@ -18,14 +18,7 @@ is_approved boolean
 
 create table pending_transfers(
 transfer_id serial,
-from_acount int references accounts(account_id),
+from_account int references accounts(account_id),
 to_account int references accounts(account_id),
 transfer_amount decimal(2)
-);
-
-create table transactions(
-transaction_id serial,
-account_id int references accounts(account_id),
-username varchar(30) references users(username),
-amount decimal(2)
 );
