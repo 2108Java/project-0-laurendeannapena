@@ -50,6 +50,7 @@ public class BankDAOImpl implements BankDAO{
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
+			loggy.error("SQL exception occurred or database connection failed.");
 		}//end try catch
 		return requestedUser;
 	}//end method selectUserByUsername
@@ -81,6 +82,7 @@ public class BankDAOImpl implements BankDAO{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			loggy.error("SQL exception occurred or database connection failed.");
 		}
 
 		
@@ -112,6 +114,7 @@ public class BankDAOImpl implements BankDAO{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			loggy.error("SQL exception occurred or database connection failed.");
 		}
 
 		
@@ -145,6 +148,7 @@ public class BankDAOImpl implements BankDAO{
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
+			loggy.error("SQL exception occurred or database connection failed.");
 		}//end try catch
 		
 		return userAccounts;
@@ -172,6 +176,7 @@ public class BankDAOImpl implements BankDAO{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			loggy.error("SQL exception occurred or database connection failed.");
 		}
 
 		
@@ -202,6 +207,7 @@ public class BankDAOImpl implements BankDAO{
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
+			loggy.error("SQL exception occurred or database connection failed.");
 		}//end try catch
 		
 		return pendingAccounts;
@@ -225,6 +231,7 @@ public class BankDAOImpl implements BankDAO{
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
+			loggy.error("SQL exception occurred or database connection failed.");
 		}//end try catch
 		
 		return success;
@@ -249,6 +256,7 @@ public class BankDAOImpl implements BankDAO{
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
+			loggy.error("SQL exception occurred or database connection failed.");
 		}//end try catch
 		
 		return success;
@@ -280,6 +288,7 @@ public class BankDAOImpl implements BankDAO{
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
+			loggy.error("SQL exception occurred or database connection failed.");
 		}//end try catch
 		
 		return userList;
@@ -308,6 +317,7 @@ public class BankDAOImpl implements BankDAO{
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			loggy.error("SQL exception occurred or database connection failed.");
 		}
 
 		return success;
@@ -334,6 +344,7 @@ public class BankDAOImpl implements BankDAO{
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
+			loggy.error("SQL exception occurred or database connection failed.");
 		}//end try catch
 		return pendingTransfers;
 	}
@@ -356,6 +367,7 @@ public class BankDAOImpl implements BankDAO{
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
+			loggy.error("SQL exception occurred or database connection failed.");
 		}//end try catch
 		
 		return success;

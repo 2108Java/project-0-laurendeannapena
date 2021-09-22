@@ -201,7 +201,7 @@ public class BankServicesImpl implements BankServices{
 			BufferedReader in = new BufferedReader(new FileReader(filePath));
 			
 			while((line = in.readLine()) != null) {
-				System.out.print(line);
+				System.out.println(line);
 			}//end while loop
 			System.out.println("");
 			in.close();

@@ -133,17 +133,17 @@ public class BankMenusImpl implements BankMenus{
 
 	private void reviewAccountMenu(Scanner sc) {
 		List<Account> pendingAccounts = new ArrayList<>();
+		loggy.info("Request list of pending accounts.");
+		service.viewPendingAccounts(pendingAccounts);
+		loggy.info("Request formatted list of pending accounts.");
+		accountDisplay(pendingAccounts);
 		
-		boolean running = true;
-		while(running) {
-			loggy.info("Request list of pending accounts.");
-			service.viewPendingAccounts(pendingAccounts);
-			loggy.info("Request formatted list of pending accounts.");
-			accountDisplay(pendingAccounts);
+//		boolean running = true;
+//		while(running) {
 			
 			System.out.println("1. Reject account.");
 			System.out.println("2. Approve account.");
-			System.out.println("0. Exit.");
+//			System.out.println("0. Exit.");
 			String choice = sc.nextLine();
 			loggy.info("User input: " + choice);
 			
@@ -176,12 +176,12 @@ public class BankMenusImpl implements BankMenus{
 					System.out.println("Account approval failed.");
 				}
 				break;
-			case "0":
-				loggy.info("Review account menu exited.");
-				running = false;
-				break;
+//			case "0":
+//				loggy.info("Review account menu exited.");
+//				running = false;
+//				break;
 			}//end switch statement
-		}//end while loop
+//		}//end while loop
 		
 	}
 
