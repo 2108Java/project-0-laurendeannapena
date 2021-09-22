@@ -23,9 +23,8 @@ public class BankMenusImpl implements BankMenus{
 	public void display() {
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("1. Login to existing account.");
-		System.out.println("2. Register for new account.");
-		System.out.println("0. Exit application.");
+		System.out.println("1. Existing user login.");
+		System.out.println("2. New user register.");
 		String userChoice = sc.nextLine();
 		
 		loggy.info("User selected" + userChoice);
@@ -76,12 +75,15 @@ public class BankMenusImpl implements BankMenus{
 			
 			switch(choice) {
 			case "1":
+				loggy.info("Review account menu opened.");
 				reviewAccountMenu(sc);				
 				break;
 			case "2":
+				loggy.info("Customer selection menu opened.");
 				customerSelectionMenu(sc);
 				break;
 			case "3":
+				loggy.info("Transaction log requested.");
 				service.viewTransactionLog();
 				break;
 			case "0":
@@ -97,12 +99,16 @@ public class BankMenusImpl implements BankMenus{
 	}
 
 	private void customerSelectionMenu(Scanner sc) {
+		loggy.info("Request formatted list of customers.");
 		displayListOfUsers();
+		
 		
 		System.out.println("Enter a customer Id to view their accounts: ");
 		int customerId = Integer.parseInt(sc.nextLine());
+		loggy.info("Selected user Id: " + customerId);
 		
 		List<Account> customerAccounts = new ArrayList<>();
+		loggy.info("Request list of customer accounts.");
 		customerAccounts = service.listAccountsByUser(customerAccounts, customerId);
 		
 		accountDisplay(customerAccounts);
@@ -110,8 +116,11 @@ public class BankMenusImpl implements BankMenus{
 
 	private void displayListOfUsers() {
 		List<User> users = new ArrayList<>();
+		
+		loggy.info("Request list of customers.");
 		users = service.getListOfCustomers();
 		
+		loggy.info("Format and display list of customers.");
 		for(User user: users) {
 			System.out.println("User Id: " + user.getId());
 			System.out.println("Name: " + user.getFirstName() + " " + user.getLastName());
@@ -126,38 +135,48 @@ public class BankMenusImpl implements BankMenus{
 		
 		boolean running = true;
 		while(running) {
+			loggy.info("Request list of pending accounts.");
 			service.viewPendingAccounts(pendingAccounts);
+			loggy.info("Request formatted list of pending accounts.");
 			accountDisplay(pendingAccounts);
 			
 			System.out.println("1. Reject account.");
 			System.out.println("2. Approve account.");
 			System.out.println("0. Exit.");
 			String choice = sc.nextLine();
+			loggy.info("User input: " + choice);
 			
 			switch(choice) {
 			case "1":
 				System.out.println("Enter rejected account number:");
 				int accountId = Integer.parseInt(sc.nextLine());
+				loggy.info("User input: " + accountId);
+				
 				if(service.rejectAccountById(accountId)) {
 					System.out.println("Account successfully deleted.");
 					loggy.info("Account #" + accountId + "rejected.");
 				}
 				else {
+					loggy.warn("Account deletion failed.");
 					System.out.println("Operation failed.");
 				}
 				break;
 			case "2":
 				System.out.println("Enter approved account number: ");
 				accountId = Integer.parseInt(sc.nextLine());
+				loggy.info("User input: " + accountId);
+				
 				if(service.approveAccountById(accountId)) {
 					System.out.println("Account approved.");
 					loggy.info("Account #" + accountId + "approved.");
 				}
 				else {
+					loggy.warn("Account approval failed.");
 					System.out.println("Account approval failed.");
 				}
 				break;
 			case "0":
+				loggy.info("Review account menu exited.");
 				running = false;
 				break;
 			}//end switch statement
@@ -169,12 +188,12 @@ public class BankMenusImpl implements BankMenus{
 		boolean running = true;
 		while(running) {
 			System.out.println("1. Create new account.");
-			System.out.println("2. Apply for joint account.");
-			System.out.println("3. View account balances.");
-			System.out.println("4. Make a withdrawal.");
-			System.out.println("5. Make a deposit.");
-			System.out.println("6. Transfer money.");
-			System.out.println("7. Review pending money transfers.");
+//			System.out.println("2. Apply for joint account.");
+			System.out.println("2. View account balances.");
+			System.out.println("3. Make a withdrawal.");
+			System.out.println("4. Make a deposit.");
+			System.out.println("5. Transfer money.");
+			System.out.println("6. Review pending money transfers.");
 			System.out.println("0. Logout.");
 			
 			String choice = sc.nextLine();
@@ -182,20 +201,21 @@ public class BankMenusImpl implements BankMenus{
 			
 			switch(choice) {
 			case "1":
+				loggy.info("Request new bank account.");
 				if(service.createNewAccount(currentUser, sc)) {
+					loggy.info("Bank account is pending approval.");
 					System.out.println("Account creation complete. Pending employee approval.");
 				}
 				else{
+					loggy.warn("Bank account creation failed.");
 					System.out.println("Account creation failed.");
 				}//end if statement
 				break;
 			case "2":
-				break;
-			case "3":
 				List<Account> userAccounts = new ArrayList<>();
 				accountDisplay(service.listAccountsByUser(userAccounts, currentUser));
 				break;
-			case "4":
+			case "3":
 				if(service.withdrawalFunds(currentUser, sc)) {
 					System.out.println("Withdrawal successful.");
 				}
@@ -203,7 +223,7 @@ public class BankMenusImpl implements BankMenus{
 					System.out.println("Withdrawal failed.");
 				}//end if statement
 				break;
-			case "5":
+			case "4":
 				if(service.depositFunds(currentUser, sc)) {
 					System.out.println("Deposit successful.");
 				}
@@ -211,7 +231,7 @@ public class BankMenusImpl implements BankMenus{
 					System.out.println("Deposit failed.");
 				}//end if statement
 				break;
-			case "6":
+			case "5":
 				if(service.transferMoneyByUsername(currentUser, sc)) {
 					System.out.println("Money transfer is now pending approval.");
 				}
@@ -219,7 +239,7 @@ public class BankMenusImpl implements BankMenus{
 					System.out.println("Transfer failed.");
 				}
 				break;
-			case "7":
+			case "6":
 				break;
 			case "0":
 				running = false;
@@ -260,8 +280,8 @@ public class BankMenusImpl implements BankMenus{
 			
 			if(login) {
 				System.out.println("Login succeeded.");
-				currentUser = service.getUserByUsername(username);
 				loggy.info("User logged in successfully.");
+				currentUser = service.getUserByUsername(username);
 			}
 			else {
 				System.out.println("Login attempt failed. Please try again.");

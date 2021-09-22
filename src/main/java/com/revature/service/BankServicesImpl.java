@@ -59,21 +59,59 @@ public class BankServicesImpl implements BankServices{
 	//create a new bank account
 	@Override
 	public boolean createNewAccount(User currentUser, Scanner sc) {
-		System.out.println("Enter c for checking account or s for savings account.");
+		System.out.println("Enter c for checking account.");
+		System.out.println("Enter s for savings account.");
+		System.out.println("Enter j for joint account.");
 		String accountType = sc.nextLine();
+		loggy.info("User input: " + accountType);
 		
-		if(accountType.equals("c")) {
+		switch(accountType) {
+		case "c":
 			accountType = "checking";
-		}
-		else if(accountType.equals("s")) {
+			break;
+		case "s":
 			accountType = "savings";
+			break;
+		case "j":
+			accountType = "joint";
+			break;
+		default:
+			loggy.warn("User did not input a valid option.");
+			System.out.println("Please input c, s, or j.");
+		}//end switch statement
+		
+//		if(accountType.equals("c")) {
+//			accountType = "checking";
+//		}
+//		else if(accountType.equals("s")) {
+//			accountType = "savings";
+//		}
+		loggy.info("Java account object created.");
+		Account newAccount = new Account();
+		
+		if(accountType == "joint") {
+			System.out.println("Enter second customer Id: ");
+			int secondId = Integer.parseInt(sc.nextLine());
+			loggy.info("User input Id: " + secondId);
+			
+			System.out.println("Enter starting balance: $");
+			double balance = Double.parseDouble(sc.nextLine());
+			loggy.info("User input balance: " + balance);
+			
+			loggy.info("Account details passed to new account.");
+			newAccount = new Account(currentUser.getId(), secondId, accountType, balance, false);
 		}
+		else {
+			System.out.print("Enter starting balance: $");
+			double balance = Double.parseDouble(sc.nextLine());
+			loggy.info("User input balance: " + balance);
+			
+			loggy.info("Account details passed to new account.");
+			newAccount = new Account(currentUser.getId(), accountType, balance, false);
+		}//end if statement
 		
-		System.out.print("Enter starting balance: $");
-		double balance = Double.parseDouble(sc.nextLine());
 		
-		Account newAccount = new Account(currentUser.getId(), accountType, balance, false);
-		
+		loggy.info("Request to add account to database.");
 		boolean success = database.insertAccount(newAccount);
 		
 		return success;
